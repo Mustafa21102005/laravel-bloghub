@@ -19,6 +19,7 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="my-5">
+                        {{-- Show Errors --}}
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -28,6 +29,8 @@
                                 </ul>
                             </div>
                         @endif
+
+                        {{-- Show Success Message --}}
                         @if (session('success'))
                             <div class="col-lg-6 mx-auto">
                                 <div class="alert alert-success alert-sm text-center">
@@ -35,8 +38,10 @@
                                 </div>
                             </div>
                         @endif
-                        <form action="{{ route('post.update', $post->id) }}" method="POST" enctype="multipart/form-data">
+
+                        <form action="{{ route('posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="form-floating mb-3">
                                 <input class="form-control" value="{{ $post->title }}" name="title" type="text"
                                     placeholder="Enter your title..." required style="border-radius: 5px;" />
@@ -60,6 +65,7 @@
                             <br />
                             <button class="btn btn-primary text-uppercase" type="submit">Edit</button>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -68,7 +74,9 @@
 @endsection
 
 @section('js')
+    {{-- Include CKEditor for rich text editing --}}
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+    {{-- initalize CKEditor on the textarea with id 'content' --}}
     <script>
         CKEDITOR.replace('content');
     </script>

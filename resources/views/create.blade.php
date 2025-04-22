@@ -19,6 +19,8 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <div class="my-5">
+
+                        {{-- Show Errors --}}
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -28,12 +30,15 @@
                                 </ul>
                             </div>
                         @endif
+
+                        {{-- Show Success Message --}}
                         @if (session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
                             </div>
                         @endif
-                        <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
+
+                        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-floating">
                                 <input class="form-control" value="{{ old('title') }}" name="title" type="text"
@@ -52,6 +57,7 @@
                             <br />
                             <button class="btn btn-primary text-uppercase" type="submit">Create</button>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -60,7 +66,9 @@
 @endsection
 
 @section('js')
+    {{-- Include CKEditor for rich text editing --}}
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+    {{-- initialize CKEditor on the textarea with id 'content' --}}
     <script>
         CKEDITOR.replace('content');
     </script>

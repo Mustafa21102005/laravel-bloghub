@@ -28,7 +28,7 @@
                         <p>{!! $post->content !!}</p>
                     </article>
                     <div class="clearfix">
-                        <a class="btn btn-primary float-right" href="{{ route('index') }}">
+                        <a class="btn btn-primary float-right" href="{{ route('posts.index') }}">
                             <i class="fa-solid fa-arrow-left"
                                 style="color: #ffffff; font-size: 1.2em; margin-right: 0.5em; vertical-align: middle;"></i>
                             Back to Home

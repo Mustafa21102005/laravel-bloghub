@@ -32,6 +32,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">
+                {{-- show success message --}}
                 @if (session('success'))
                     <div class="alert alert-success alert-sm text-center">
                         {{ session('success') }}
@@ -45,7 +46,6 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7" id="posts">
                 @include('partials.posts', ['posts' => $posts])
-
             </div>
             <div class="d-flex justify-content-center mb-3">
                 <button class="btn btn-primary" id="load_more">Load More</button>
@@ -55,6 +55,7 @@
 @endsection
 
 @section('js')
+    {{-- js to handle load more button --}}
     <script>
         var page = 1;
         var showHidden = "{{ request('show_hidden') == 'true' ? 'true' : 'false' }}"; // Detect hidden posts mode
@@ -64,7 +65,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: '{{ route('index') }}',
+                url: '{{ route('posts.index') }}',
                 data: {
                     page: ++page,
                     show_hidden: showHidden // Maintain hidden post mode
@@ -79,7 +80,7 @@
                             $('#posts').append(`
                             <div class="alert alert-warning text-center mt-3">
                                 There are no more posts to show. 
-                                <a href="{{ route('index', ['show_hidden' => 'true']) }}" class="fw-bold">
+                                <a href="{{ route('posts.index', ['show_hidden' => 'true']) }}" class="fw-bold">
                                     Want to see hidden posts?
                                 </a>
                             </div>
