@@ -15,6 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Post::factory(15)->create();
+        Post::factory(10)->create()->each(function ($post) {
+            $post->image()->create([
+                'url' => 'https://placehold.co/600x400',
+            ]);
+        });
     }
 }

@@ -31,7 +31,7 @@ class PostController extends Controller
         }
 
         // Paginate the posts (3 posts per page)
-        $posts = $query->orderBy('created_at', 'DESC')->paginate(1);
+        $posts = $query->orderBy('created_at', 'DESC')->paginate(3);
 
         // If it's an AJAX request, return JSON with HTML and empty check
         if ($request->ajax()) {
@@ -76,17 +76,29 @@ class PostController extends Controller
     {
         $validated = $request->validated();
 
+        // Initialize the image path variable
+        $imagePath = null;
+
         if ($request->hasFile('image')) {
+            // Get the uploaded image
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $imagePath = $image->storeAs('images', $imageName, 'public');
         }
 
+        // Create a new post
         $new_post = new Post();
         $new_post->title = $validated['title'];
         $new_post->content = $validated['content'];
-        $new_post->image = $imagePath;
         $new_post->save();
+
+        // Create the image via the polymorphic relation
+        if ($imagePath) {
+            // Create the image record in the database
+            $new_post->image()->create([
+                'url' => 'images/' . $imageName, // The image URL to be saved
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Post Created Successfully');
     }
@@ -126,27 +138,33 @@ class PostController extends Controller
         $post->title = $validated['title'];
         $post->content = $validated['content'];
         $post->is_active = $request->has('is_active') ? 1 : 0;
+        $post->save();
 
         // Handle image update
         if ($request->hasFile('image')) {
-            // Delete old image if it exists
+            // Delete old image file if it exists
             if ($post->image) {
-                $oldImagePath = public_path('storage/' . $post->image);
-                if (file_exists($oldImagePath)) {
-                    unlink($oldImagePath);
+                $oldImagePath = public_path('storage/' . $post->image->url); // Ensure we're using 'url' here
+
+                // Only unlink if it's a file and exists
+                if (is_file($oldImagePath) && file_exists($oldImagePath)) {
+                    unlink($oldImagePath); // Delete the old image file
                 }
+
+                // Delete the old image record via polymorphic relation
+                $post->image()->delete();
             }
 
             // Store new image
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('images', $imageName, 'public');
+            $imagePath = $image->storeAs('images', $imageName, 'public'); // Correctly storing under 'public' disk
 
-            // Update post image field
-            $post->image = 'images/' . $imageName;
+            // Create new image record via polymorphic relation
+            $post->image()->create([
+                'url' => 'images/' . $imageName,
+            ]);
         }
-
-        $post->save();
 
         return redirect()->back()->with('success', 'Post Updated Successfully');
     }
@@ -175,13 +193,21 @@ class PostController extends Controller
     {
         // Delete the image from storage if it exists
         if ($post->image) {
-            $imagePath = public_path('storage/' . $post->image);
+            // Ensure we're using the 'url' field to get the image path
+            $imagePath = public_path('storage/' . $post->image->url); // Using 'url' here
+
+            // Check if the file exists and delete it
             if (file_exists($imagePath)) {
-                unlink($imagePath);
+                unlink($imagePath); // Delete the image file
             }
+
+            // Delete the image record from the database
+            $post->image()->delete();
         }
 
+        // Delete the post itself
         $post->delete();
-        return redirect()->back()->with('success', 'Post Deleted Successfully');
+
+        return redirect()->back()->with('success', 'Post and Image Deleted Successfully');
     }
 }

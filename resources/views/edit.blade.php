@@ -57,8 +57,11 @@
                             </div>
                             <div class="mb-3">
                                 @if ($post->image)
-                                    <img src="{{ asset('storage/' . $post->image) }}" alt="Current Post Image"
-                                        class="img-fluid mb-3" style="max-width: 200px;">
+                                    <p>Current Image:</p>
+                                    <img src="{{ filter_var($post->image->url, FILTER_VALIDATE_URL) ? $post->image->url : asset('storage/' . $post->image->url) }}"
+                                        class="img-fluid mb-3" alt="Post Image" style="width: 200px;">
+                                @else
+                                    <p>No Image Available</p>
                                 @endif
                                 <input class="form-control" type="file" name="image" accept="image/*" />
                             </div>
