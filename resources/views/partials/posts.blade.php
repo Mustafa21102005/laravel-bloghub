@@ -3,8 +3,8 @@
         <div class="card mb-3">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="{{ asset('storage/' . $post->image) }}" class="img-fluid" alt="Post Image"
-                        style="object-fit: cover; height: 100%; width: 100%;">
+                    <img src="{{ filter_var($post->image->url, FILTER_VALIDATE_URL) ? $post->image->url : asset('storage/' . $post->image->url) }}"
+                        class="img-fluid" alt="Post Image" style="object-fit: cover; height: 100%; width: 100%;">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">

@@ -7,7 +7,7 @@
 @section('content')
     <!-- Page Header -->
     <header class="masthead"
-        style="background-image: url('{{ asset('storage/' . $post->image) }}'); background-size: cover; background-position: center;">
+        style="background-image: url('{{ filter_var($post->image->url, FILTER_VALIDATE_URL) ? $post->image->url : asset('storage/' . $post->image->url) }}'); background-size: cover; background-position: center;">
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
