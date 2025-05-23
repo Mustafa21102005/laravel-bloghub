@@ -6,6 +6,7 @@ use App\Http\Requests\PostCreateRequest;
 use App\Http\Requests\PostEditRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Mews\Purifier\Facades\Purifier;
 
 class PostController extends Controller
 {
@@ -89,7 +90,8 @@ class PostController extends Controller
         // Create a new post
         $new_post = new Post();
         $new_post->title = $validated['title'];
-        $new_post->content = $validated['content'];
+        $new_post->content = Purifier::clean(html_entity_decode($validated['content']), 'default');
+
         $new_post->save();
 
         // Create the image via the polymorphic relation
@@ -136,7 +138,7 @@ class PostController extends Controller
 
         // Update post details
         $post->title = $validated['title'];
-        $post->content = $validated['content'];
+        $post->content = Purifier::clean(html_entity_decode($validated['content']), 'default');
         $post->is_active = $request->has('is_active') ? 1 : 0;
         $post->save();
 

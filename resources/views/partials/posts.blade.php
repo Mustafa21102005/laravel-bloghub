@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <h2 class="post-title">{{ $post->title }}</h2>
                         <p class="card-text">
-                            {!! \Illuminate\Support\Str::limit($post->content, 20, '...') !!}
+                            {!! \Illuminate\Support\Str::limit($post->content, 40, '...') !!}
                         </p>
                         <p class="post-meta">
                             Posted on {{ $post->created_at->format('F d, Y') }}
