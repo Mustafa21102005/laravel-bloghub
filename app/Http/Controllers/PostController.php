@@ -11,6 +11,25 @@ use Mews\Purifier\Facades\Purifier;
 class PostController extends Controller
 {
     /**
+     * The constructor method.
+     *
+     * This method sets up the middleware for the resource controller. It uses the
+     * `auth` and `verified` middleware to protect the actions that require a user
+     * to be logged in and verified.
+     */
+    public function __construct()
+    {
+        // Apply auth and verified middleware to the following actions
+        $this->middleware(['auth', 'verified'])->only([
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy'
+        ]);
+    }
+
+    /**
      * Display a listing of the posts.
      *
      * This method handles the display of blog posts. It checks if the request is an AJAX
