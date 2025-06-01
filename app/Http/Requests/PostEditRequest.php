@@ -24,8 +24,8 @@ class PostEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:20|min:3',
-            'content' => 'required|min:20',
+            'title' => 'required|min:3',
+            'content' => 'required|min:10',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg'
         ];
     }
