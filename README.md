@@ -5,8 +5,8 @@ A clean and elegant blog platform built with Laravel, featuring rich post manage
 ---
 
 ## 🚀 Features
-
-- 📝 Create, edit, and delete blog posts
+ 
+- 📝 Create, edit, bookmark, and delete blog posts
 - 📷 Image uploads with public storage handling
 - 🔄 AJAX-based "Load More" button for seamless pagination
 - 👻 Show/Hide inactive (soft-hidden) posts
@@ -14,6 +14,17 @@ A clean and elegant blog platform built with Laravel, featuring rich post manage
 - 🌐 Mobile-responsive design
 - 📥 Session-based flash messages
 - 🧩 Modular components and partial views
+
+---
+
+## 🔐 User Authentication
+
+- Users can **register** and **log in**
+- Authenticated users can:
+  - Create blog posts
+  - Edit and delete their own posts
+  - Bookmark their favorite posts
+- Posts and actions are scoped to logged-in users for security and usability
 
 ---
 
