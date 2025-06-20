@@ -22,7 +22,7 @@ A clean and elegant blog platform built with Laravel, featuring rich post manage
 - Users can **register** and **log in**
 - Authenticated users can:
   - Create blog posts
-  - Edit and delete their own posts
+  - Edit and delete posts
   - Bookmark their favorite posts
 ---
 
