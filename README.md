@@ -24,8 +24,6 @@ A clean and elegant blog platform built with Laravel, featuring rich post manage
   - Create blog posts
   - Edit and delete their own posts
   - Bookmark their favorite posts
-- Posts and actions are scoped to logged-in users for security and usability
-
 ---
 
 ## 🛠️ Tech Stack
