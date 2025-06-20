@@ -35,7 +35,7 @@ A clean and elegant blog platform built with Laravel, featuring rich post manage
 | Bootstrap  | Frontend styling (v5.3.3) |
 | jQuery     | For AJAX requests |
 | MySQL      | Relational database |
-| CKEditor   | Optional rich-text editing |
+| CKEditor   | For rich-text editing |
 
 ---
 
